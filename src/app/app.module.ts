@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MonPremierComponent } from './mon-premier/mon-premier.component';
 import { AppareilComponent } from './appareil/appareil.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppareilService } from './service/appareil.service';
 import { AuthComponent } from './auth/auth.component';
@@ -15,11 +15,18 @@ import { AuthService } from './service/auth.service';
 import { SingleAppareilComponent } from './single-appareil/single-appareil.component';
 import { PageErreurComponent } from './page-erreur/page-erreur.component';
 import { AuthGuardGuard } from './auth-guard.guard';
+import { EditAppareilComponent } from './edit-appareil/edit-appareil.component';
+import { UserListComponent } from './user-list/user-list.component';
+import { UserService } from './service/user.service';
+import { NewUserComponent } from './new-user/new-user.component';
 
 const appRoutes: Routes = [
   { path: 'appareils', canActivate: [AuthGuardGuard], component: AppareilViewComponent },
   { path: 'appareils/:id',  canActivate: [AuthGuardGuard], component: SingleAppareilComponent },
+  { path: 'edit', canActivate: [AuthGuardGuard], component: EditAppareilComponent },
   { path: 'auth', component: AuthComponent },
+  { path: 'users', component: UserListComponent },
+  { path: 'new-user', component: NewUserComponent },
   { path: '', component: AppareilViewComponent },
   { path: 'not-found', component: PageErreurComponent },
   { path: '**', redirectTo: '/not-found'}
@@ -33,18 +40,23 @@ const appRoutes: Routes = [
     AuthComponent,
     AppareilViewComponent,
     SingleAppareilComponent,
-    PageErreurComponent
+    PageErreurComponent,
+    EditAppareilComponent,
+    UserListComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
     AppareilService,
     AuthService,
-    AuthGuardGuard
+    AuthGuardGuard,
+    UserService
   ],
   bootstrap: [AppComponent]
 })

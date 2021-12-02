@@ -1,48 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { interval, Subscription } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
-  isAuth = false;
-  lastUpdate = new Date();
+export class AppComponent implements OnInit{
 
-  appareils = [
-    {
-      name: 'Machine à Laver',
-      status: 'éteint'
-    },
-    {
-      name: 'Ordinateur',
-      status: 'allumé'
-    },
-    {
-      name: 'Télévision',
-      status: 'éteint'
-    },
-    {
-      name: 'Radio',
-      status: 'éteint'
-    },
-    {
-      name: 'Téléphone',
-      status: 'allumé'
-    }
-  ];
+  seconde: number = 0;
+  counterSubscription: Subscription | undefined;
 
-  constructor()
-  {
-    setTimeout(
-      () => {
-        this.isAuth = true;
-      }, 4000
+  constructor() {}
+
+  ngOnInit() {
+    const counter = interval(1000);
+    this.counterSubscription = counter.subscribe(
+      (value: number) => {
+        this.seconde = value;
+      }
     );
   }
 
-  onAllumer()
+  ngOnDestroy()
   {
-    console.log('Tout est Allumé');
+    this.counterSubscription?.unsubscribe();
   }
+
 }
